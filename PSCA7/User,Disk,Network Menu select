@@ -11,5 +11,5 @@ elseif ($choice -eq 1) {
     Get-WMIObject Win32_LogicalDisk | Select-Object DeviceID, DriveType, FileSystem, FreeSpace, Size
 }
 elseif ($choice -eq 2) {
-    Get-NetIPAddress | Select-Object InterfaceAlias, IPAddress, PrefixLength
+    Get-NetIPAddress | Select-Object InterfaceAlias, IPAddress
 }
