@@ -1,0 +1,29 @@
+function New-UserMenu {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$true)]
+        [ValidateScript({
+            if($_ -eq "1" -or $_ -eq "2" -or $_ -eq "3") {
+                $true
+            } else {
+                $false
+            }
+        })]
+        [String]$Choice
+    )
+
+    switch($Choice) {
+        "1" {
+            # create new user account
+            New-LocalUser -Name "newuser" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd" -Force) -FullName "New User" -Description "This is a new user account"
+        }
+        "2" {
+            # lock existing account
+            Disable-LocalUser -Name "existinguser"
+        }
+        "3" {
+            # delete existing user account
+            Remove-LocalUser -Name "existinguser"
+        }
+    }
+}
