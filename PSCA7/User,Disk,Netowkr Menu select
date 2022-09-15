@@ -3,7 +3,7 @@
 $menuItems = @("Display user accounts and their username and description", "Display disk information", "Display network information")
 $choice = $host.ui.PromptForChoice("Choose an option", "Please select an option", $menuItems, 0)
 
-# Process the user's choice
+# user's choice
 if ($choice -eq 0) {
     Get-WMIObject Win32_UserAccount -Filter "LocalAccount=True" | Select-Object Name, Description
 }
