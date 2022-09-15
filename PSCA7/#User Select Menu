@@ -1,29 +1,15 @@
-function New-UserMenu {
-    [CmdletBinding()]
-    param (
-        [Parameter(Mandatory=$true)]
-        [ValidateScript({
-            if($_ -eq "1" -or $_ -eq "2" -or $_ -eq "3") {
-                $true
-            } else {
-                $false
-            }
-        })]
-        [String]$Choice
-    )
 
-    switch($Choice) {
-        "1" {
-            # create new user account
-            New-LocalUser -Name "newuser" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rd" -Force) -FullName "New User" -Description "This is a new user account"
-        }
-        "2" {
-            # lock existing account
-            Disable-LocalUser -Name "existinguser"
-        }
-        "3" {
-            # delete existing user account
-            Remove-LocalUser -Name "existinguser"
-        }
-    }
+# Create a menu
+$menuItems = @("Display user accounts and their username and description", "Display disk information", "Display network information")
+$choice = $host.ui.PromptForChoice("Choose an option", "Please select an option", $menuItems, 0)
+
+# Process the user's choice
+if ($choice -eq 0) {
+    Get-WMIObject Win32_UserAccount -Filter "LocalAccount=True" | Select-Object Name, Description
+}
+elseif ($choice -eq 1) {
+    Get-WMIObject Win32_LogicalDisk | Select-Object DeviceID, DriveType, FileSystem, FreeSpace, Size
+}
+elseif ($choice -eq 2) {
+    Get-NetIPAddress | Select-Object InterfaceAlias, IPAddress, PrefixLength
 }
